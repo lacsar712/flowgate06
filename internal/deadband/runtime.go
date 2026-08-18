@@ -109,7 +109,12 @@ func (n *Node) BrowseName() string {
 
 func ParseEUSnapshot(b []byte) (map[string]float64, error) {
 	var m map[string]float64
-	_ = json.Unmarshal(b, &m)
+	if len(b) == 0 {
+		return nil, errors.New("empty EU snapshot")
+	}
+	if err := json.Unmarshal(b, &m); err != nil {
+		return nil, err
+	}
 	return m, nil
 }
 
